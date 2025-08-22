@@ -24,15 +24,15 @@ Route::get('/blog/{post:slug}', function (Post $post) {
 });
 
 Route::get('/authors/{user:username}', function (User $user) {
-    $posts = $user->posts->load('author', 'category');
+    // $posts = $user->posts->load('author', 'category');
     
-    return view('blog', ['title' => count($posts) . ' Article By. ' . $user->name, 'arrayPost' => $posts]);
+    return view('blog', ['title' => count($user->posts) . ' Article By. ' . $user->name, 'arrayPost' => $user->posts]);
 });
 
 Route::get('/categories/{category:slug}', function (Category $category) {
-    $posts = $category->posts->load('author', 'category');
+    // $posts = $category->posts->load('author', 'category');
 
-    return view('blog', ['title' => 'Categoty: ' . $category->name, 'arrayPost' => $posts]);
+    return view('blog', ['title' => 'Categoty: ' . $category->name, 'arrayPost' => $category->posts]);
 });
 
 Route::get('/about', function () {  

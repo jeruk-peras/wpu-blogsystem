@@ -12,6 +12,13 @@ class Post extends Model
     use HasFactory;
     protected $fillable = ['title', 'slug', 'user_id', 'body'];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['author', 'category'];
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
