@@ -10,7 +10,10 @@ Route::get('/', function () {
 });
 
 Route::get('/blog', function () {
-    $arrayPost = Post::all();
+    // $arrayPost = Post::all();
+    // menggunakan Eager Loading, untuk mengatasi n + 1 problem
+    // $arrayPost = Post::with(['author', 'category'])->latest()->get();
+    $arrayPost = Post::latest()->get();
 
     return view('blog', ['title' => 'Blog Page', 'arrayPost' => $arrayPost]);
 });
@@ -21,11 +24,15 @@ Route::get('/blog/{post:slug}', function (Post $post) {
 });
 
 Route::get('/authors/{user:username}', function (User $user) {
-    return view('blog', ['title' => count($user->posts) . ' Article By. ' . $user->name, 'arrayPost' => $user->posts]);
+    $posts = $user->posts->load('author', 'category');
+    
+    return view('blog', ['title' => count($posts) . ' Article By. ' . $user->name, 'arrayPost' => $posts]);
 });
 
 Route::get('/categories/{category:slug}', function (Category $category) {
-    return view('blog', ['title' => 'Categoty: ' . $category->name, 'arrayPost' => $category->posts]);
+    $posts = $category->posts->load('author', 'category');
+
+    return view('blog', ['title' => 'Categoty: ' . $category->name, 'arrayPost' => $posts]);
 });
 
 Route::get('/about', function () {  
