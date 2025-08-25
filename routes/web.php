@@ -13,13 +13,14 @@ Route::get('/blog', function () {
     // $arrayPost = Post::all();
     // menggunakan Eager Loading, untuk mengatasi n + 1 problem
     // $arrayPost = Post::with(['author', 'category'])->latest()->get();
-    $arrayPost = Post::latest();
+    $arrayPost = Post::latest()->filter(request(['search', 'categories', 'authors']));
 
     // jika ada pencarian
-    $search = request('search');
-    if($search){
-        $arrayPost->where('title', 'like', '%' . $search . '%');
-    }
+    // $search = request('search');
+    // var_dump(request(['search', 'category']));
+    // if($search){
+    //     $arrayPost->where('title', 'like', '%' . $search . '%');
+    // }
 
     return view('blog', ['title' => 'Blog Page', 'arrayPost' => $arrayPost->get()]);
 });

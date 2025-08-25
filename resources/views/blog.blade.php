@@ -19,6 +19,14 @@
 
 
     <form class="max-w-md mx-auto">
+        @if (request('categories'))
+            <input type="hidden" name='categories' value="{{ request('categories') }}">
+        @endif
+
+        @if (request('authors'))
+            <input type="hidden" name='authors' value="{{ request('authors') }}">
+        @endif
+
         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
         <div class="relative">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -43,7 +51,7 @@
                 <article
                     class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                     <div class="flex justify-between items-center mb-5 text-gray-500">
-                        <a href="/categories/{{ $row->category->slug }} ">
+                        <a href="?categories={{ $row->category->slug }} ">
                             <span
                                 class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
                                 {{ $row->category->name }}
@@ -60,7 +68,7 @@
                             <img class="w-7 h-7 rounded-full"
                                 src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png"
                                 alt="Jese Leos avatar" />
-                            <a href="/authors/{{ $row->author->username }}">
+                            <a href="?authors={{ $row->author->username }}">
                                 <span class="font-medium text-sm dark:text-white">
                                     {{ $row->author->name }}
                                 </span>
